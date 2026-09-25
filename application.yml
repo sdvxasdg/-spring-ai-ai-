@@ -1,0 +1,68 @@
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+  port: ${SERVER_PORT:8899}
+
+spring:
+  application:
+    name: springai-recruit-agent
+
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY}
+      chat:
+        options:
+          model: ${DASHSCOPE_MODEL:qwen-plus}
+          temperature: ${DASHSCOPE_TEMPERATURE:0.7}
+
+  pgvector:
+    datasource:
+      url: ${PGVECTOR_URL:jdbc:postgresql://localhost:5432/recruit_vector}
+      username: ${PGVECTOR_USERNAME:postgres}
+      password: ${PGVECTOR_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/recruit?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      pool-name: mysql-pool
+      maximum-pool-size: 20
+      minimum-idle: 5
+      connection-timeout: 5000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD}
+      timeout: 3000ms
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: auto
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
